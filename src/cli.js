@@ -1,66 +1,65 @@
 #!/usr/bin/env node
-const yargs = require('yargs')
-const Table = require('cli-table3');
-const clear = require('clear')
-const helpers = require('./helpers');
-const fetchStocks = helpers.fetchStocks
- 
-clear()
+const clear = require("clear");
+const figlet = require("figlet");
+const chalk = require("chalk");
+const CLI = require("clui");
 
-const args = yargs.options({
-  symbol: {
-    type: "string",
-    demandOption: true,
-    alias: "s",
-  },
-}).argv;
+const Spinner = CLI.Spinner;
+const auth = require("./lib/auth");
+const GenericTable = require("./lib/table");
+const stocks = require("./lib/stocks");
 
-const table = new Table({
+const table = new GenericTable({
   head: ["Time", "Open", "High", "Low", "Close", "Volume"],
 });
 
-const populateTable = (data) => {
-  const stockData = Object.keys(data).map((key) => {
-    return [key, ...Object.values(data[key])];
-  });
+clear();
 
-  table.push(...stockData);
+console.log(
+  chalk.blue(figlet.textSync("Stonk Tracker", { horizontalLayout: "full" }))
+);
+
+const getApiKey = async () => {
+  if (process.env.API_KEY && process.env.DEV) {
+    return process.env.API_KEY;
+  } else {
+    let key = auth.getAPIKey();
+    if (key) {
+      return key;
+    }
+
+    key = await auth.setApiKey();
+    return key;
+  }
 };
 
-const getStonks = async (symbol) => {
+const run = async () => {
   try {
-    const stockData = await fetchStocks(symbol);
-    return stockData;
+    const status = new Spinner("Fetching and organizing data, please wait...");
+    const key = await getApiKey();
+    const { symbol } = await stocks.getSymbol();
+    status.start();
+
+    const stockData = await stocks.fetchStocks({
+      symbol,
+      key,
+    });
+    const data = stocks.getStockIntervalData(
+      stockData.data["Time Series (5min)"]
+    );
+
+    table.populateTable(data, (data, self) => {
+      const stockData = Object.keys(data).map((key) => {
+        return [key, ...Object.values(data[key])];
+      });
+
+      self.table.push(...stockData);
+    });
+    status.stop();
+    table.renderTable();
   } catch (e) {
     console.log(e);
   }
 };
 
-const getTime = (time) => time.split(" ")[1];
-
-const getStockIntervalData = (stockData) => {
-  const newObj = {};
-  Object.keys(stockData).forEach((time) => {
-    newObj[getTime(time)] = stockData[time];
-  });
-
-  return newObj;
-};
-
-const hasSymbol = (data) => Object.keys(data).includes("s");
-
-const execute = async () => {
-  try {
-    if (hasSymbol(args)) {
-        const res = await getStonks(args['s']);
-        const data = getStockIntervalData(res.data['Time Series (5min)'])
-        populateTable(data)
-    }
-
-    console.log(table.toString());
-  } catch (e) {
-      console.log(e)
-  }
-};
-
-execute()
+run();
