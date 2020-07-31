@@ -18,5 +18,5 @@
     ```
       API_KEY=<YOUR GENERATED API KEY>
     ```
-  6. Run `setup.sh`
-  7. To start the app in a docker container run `start.sh` in your terminal.
+  6. Run `./setup.sh`
+  7. To start the app in a docker container run `./start.sh` in your terminal.
