@@ -1,0 +1,11 @@
+language: node_js
+node_js:
+- 14.4.0
+deploy:
+  provider: npm
+  email: koomen.ted@gmail.com
+  api_key:
+    secure: SoHcmlvAajSb1PrbrArZzY2kLl5ACDTKMesCEAYv9k9ljFKOi3Gi8zZU8yeCVsroI3XPgf77F+0BxqcyXXnuJ7qYbeSUQlpaio6zii+t8Vy+QizB58tO/esM8iaGw/TQ/70GaMKthgm8q6eKghGesk21ni68Zk7yNClEvscBn1xPITC7NpxNyuYmTsbxIkIZSil1MdHonr8VVdNqvPeJDTqZV+R99j9Z05SbGk0Rn41XCHHBQeGTsl0N2fYKzVUuh5SXV4vGYxa4n27ICBj0dltZsDlqZbKBMeSmuIixwdp9vCjeecE0jaZQCoyyDuf9kpDzdfCEzWiz3iXmAL2SKSPWslMaE8z6LLlAG2IDahTJ/sD9O61u5h7StoSAFP67A6ZVdM+kTdT+4IeHbzQbA9Tbnl6J/MkCNdfPZX5ScZgqK3HzZOmV+Wp3XfL2V/yCC06QqoQ/l8N0Bwsvp60KJtSFW2piGgBKw7iPIsqG4GyIZWRTbXQuqb7uxHLKu3wChGqubA1FN5kN6zD/fE2jT1XNwvw22ALSbKOxwYVmQeHoeku9PUu8m5x0QnZtXUS/CXXjh3jH9bt4PyqEqPobGL4d3W1SIeEg4NtamR9c572GHeVQ88NquvXXAWecEtDTLv6h0PDd3KA3Fb0FZCbqXHzB/yEQ84zptO9aLK7QnEs=
+  on: 
+    branch: master
+    
