@@ -5,6 +5,8 @@ const clear = require('clear')
 const helpers = require('./helpers');
 const fetchStocks = helpers.fetchStocks
  
+clear()
+
 const args = yargs.options({
   symbol: {
     type: "string",
