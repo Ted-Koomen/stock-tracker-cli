@@ -3,7 +3,6 @@ const yargs = require('yargs')
 const Table = require('cli-table3');
 const clear = require('clear')
 const helpers = require('./helpers');
-console.log(helpers)
 const fetchStocks = helpers.fetchStocks
  
 const args = yargs.options({
@@ -29,7 +28,6 @@ const populateTable = (data) => {
 const getStonks = async (symbol) => {
   try {
     const stockData = await fetchStocks(symbol);
-    console.log(stockData)
     return stockData;
   } catch (e) {
     console.log(e);
@@ -51,12 +49,9 @@ const hasSymbol = (data) => Object.keys(data).includes("s");
 
 const execute = async () => {
   try {
-      console.log(args)
-      console.log(hasSymbol(args))
     if (hasSymbol(args)) {
         const res = await getStonks(args['s']);
         const data = getStockIntervalData(res.data['Time Series (5min)'])
-        console.log(data)
         populateTable(data)
     }
 
