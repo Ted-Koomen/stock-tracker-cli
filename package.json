@@ -1,0 +1,21 @@
+{
+  "name": "stock-tracker-node",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "bin": {
+    "stonks": "./cli.js"
+  },
+  "dependencies": {
+    "axios": "^0.19.2",
+    "chalk": "^4.1.0",
+    "clear": "^0.1.0",
+    "cli-table3": "^0.6.0",
+    "yargs": "^15.4.1"
+  }
+}
