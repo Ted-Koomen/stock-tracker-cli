@@ -1,1 +1,2 @@
-chmod +x ./start.sh
+chmod +x ./start-dev.sh
+chmod +x ./start-prod.sh
