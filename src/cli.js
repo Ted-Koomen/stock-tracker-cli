@@ -8,6 +8,7 @@ const Spinner = CLI.Spinner;
 const auth = require("./lib/auth");
 const GenericTable = require("./lib/table");
 const stocks = require("./lib/stocks");
+const apiResponseTitles = require('./constants/apiResponseTitles');
 
 const table = new GenericTable({
   head: ["Time", "Open", "High", "Low", "Close", "Volume"],
@@ -33,19 +34,38 @@ const getApiKey = async () => {
   }
 };
 
+const apiResponseTitle = (timeSeriesType) => {
+  switch(timeSeriesType) {
+    case "TIME_SERIES_INTRADAY":
+      return apiResponseTitles.TIME_SERIES_INTRADAY
+    case "TIME_SERIES_DAILY":
+      return apiResponseTitles.TIME_SERIES_DAILY
+    case "TIME_SERIES_DAILY_ADJUSTED":
+      return apiResponseTitles.TIME_SERIES_DAILY
+    case "TIME_SERIES_WEEKLY":
+      return apiResponseTitles.TIME_SERIES_WEEKLY
+    case "TIME_SERIES_WEEKLY_ADJUSTED":
+      return apiResponseTitles.TIME_SERIES_WEEKLY_ADJUSTED
+    case "TIME_SERIES_MONTHLY":
+      return apiResponseTitles.MONTHLY_TIME_SERIES
+  }
+}
+
 const run = async () => {
   try {
     const status = new Spinner("Fetching and organizing data, please wait...");
     const key = await getApiKey();
     const { symbol } = await stocks.getSymbol();
+    const { timeSeries } = await stocks.getTimeSeries()
     status.start();
 
     const stockData = await stocks.fetchStocks({
       symbol,
       key,
+      timeSeries
     });
     const data = stocks.getStockIntervalData(
-      stockData.data["Time Series (5min)"]
+      stockData.data[apiResponseTitle(timeSeries)]
     );
 
     table.populateTable(data, (data, self) => {

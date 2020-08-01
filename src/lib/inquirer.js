@@ -35,5 +35,25 @@ module.exports = {
             }
         ]
         return inquirer.prompt(questions);
+    },
+    askTimeSeries: () => {
+        const questions = [
+            {
+                name: 'timeSeries',
+                type: 'list',
+                message: "Select time series (intraday, daily, etc.) Default is intraday.",
+                default: "TIME_SERIES_INTRADAY",
+                choices: [
+                    "TIME_SERIES_INTRADAY",
+                    "TIME_SERIES_DAILY",
+                    "TIME_SERIES_DAILY_ADJUSTED",
+                    "TIME_SERIES_WEEKLY",
+                    "TIME_SERIES_WEEKLY_ADJUSTED",
+                    "TIME_SERIES_MONTHLY"
+                ]
+            }
+        ]
+
+        return inquirer.prompt(questions);
     }
 }
