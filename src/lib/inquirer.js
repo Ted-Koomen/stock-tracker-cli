@@ -1,6 +1,21 @@
 const inquirer = require('inquirer');
 
 module.exports = {
+    askIfShouldQuit: () => {
+        const questions = [
+            {
+                name: 'shouldQuit',
+                type: 'list',
+                message: 'Is that all?',
+                choices: [
+                    "Yes",
+                    "No"
+                ]
+            }
+        ]
+
+        return inquirer.prompt(questions)
+    },
     askAPIKeyCredentials: () => {
         const questions = [
             {

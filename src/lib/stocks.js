@@ -1,6 +1,5 @@
 const axios = require('axios');
 const inquirer = require("./inquirer");
-const moment = require('moment');
 
 module.exports = {
   getSymbol: async () => {
